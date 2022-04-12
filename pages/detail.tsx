@@ -39,14 +39,21 @@ const DetailPokemon: NextPage = () => {
 				src={detail?.data?.sprites?.front_default}
 			/>
 			<div className="flex">
-				<p
-					onClick={moveOrRemoveToDeck}
-					className={`text-xs text-white font-semibold bg-${
-						isALreadyInDeck ? "gray-600" : "blue-400"
-					} p-2 rounded shadow cursor-pointer`}
-				>
-					{isALreadyInDeck ? "Remove from Deck" : "Add To Deck"}
-				</p>
+				{isALreadyInDeck ? (
+					<p
+						onClick={moveOrRemoveToDeck}
+						className={`text-xs text-white font-semibold bg-gray-600 p-2 rounded shadow cursor-pointer`}
+					>
+						{"Remove from Deck"}
+					</p>
+				) : (
+					<p
+						onClick={moveOrRemoveToDeck}
+						className={`text-xs text-white font-semibold bg-blue-400 p-2 rounded shadow cursor-pointer`}
+					>
+						{"Add To Deck"}
+					</p>
+				)}
 			</div>
 			<Statistic label="Statistic" data={detail?.data?.stats} />
 			<Content label="Types" obKeys={"type"} data={detail?.data?.types} />
