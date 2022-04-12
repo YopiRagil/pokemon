@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addToDeck, removeFromDeck } from "../store/storeAction/pokemon";
 import { useRouter } from "next/router";
+import { Content, Statistic } from "../components/DetailCOmponent";
 
 const DetailPokemon: NextPage = () => {
 	const detail = useSelector((state: IState) => state.pokemon.detail);
@@ -39,14 +40,21 @@ const DetailPokemon: NextPage = () => {
 				src={detail?.data?.sprites?.front_default}
 			/>
 			<div className="flex">
-				<p
-					onClick={moveOrRemoveToDeck}
-					className={`text-xs text-white font-semibold bg-${
-						isALreadyInDeck ? "gray-600" : "blue-400"
-					} p-2 rounded shadow cursor-pointer`}
-				>
-					{isALreadyInDeck ? "Remove from Deck" : "Add To Deck"}
-				</p>
+				{isALreadyInDeck ? (
+					<p
+						onClick={moveOrRemoveToDeck}
+						className={`text-xs text-white font-semibold bg-gray-600 p-2 rounded shadow cursor-pointer`}
+					>
+						{"Remove from Deck"}
+					</p>
+				) : (
+					<p
+						onClick={moveOrRemoveToDeck}
+						className={`text-xs text-white font-semibold bg-blue-400 p-2 rounded shadow cursor-pointer`}
+					>
+						{"Add To Deck"}
+					</p>
+				)}
 			</div>
 			<Statistic label="Statistic" data={detail?.data?.stats} />
 			<Content label="Types" obKeys={"type"} data={detail?.data?.types} />
@@ -56,40 +64,3 @@ const DetailPokemon: NextPage = () => {
 };
 
 export default DetailPokemon;
-
-const Statistic = (props: any) => {
-	const { data, label } = props;
-	return (
-		<div className="mb-2">
-			<p className="capitalize text-base font-semibold">{label} :</p>
-			<div className="flex flex-wrap">
-				{data?.map((el: any, idx: number) => (
-					<div key={idx} className="w-1/2 p-1">
-						<p className="capitalize text-xs font-bold">{el?.stat?.name} :</p>
-						<p className="text-xs">- Base Statistic : {el?.base_stat}</p>
-						<p className="text-xs">- Effort : {el?.effort}</p>
-					</div>
-				))}
-			</div>
-		</div>
-	);
-};
-
-const Content = (props: any) => {
-	const { data, label, obKeys } = props;
-	return (
-		<div className="mb-2">
-			<p className="capitalize text-base font-semibold mb-1">{label} :</p>
-			<div className="flex gap-2 flex-wrap">
-				{data?.map((el: any, idx: number) => (
-					<p
-						key={idx}
-						className="px-2 bg-gray-700 text-white rounded text-sm pb-1"
-					>
-						{el?.[obKeys]?.name}
-					</p>
-				))}
-			</div>
-		</div>
-	);
-};
